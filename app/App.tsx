@@ -1,10 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ThemeProvider } from "react-native-magnus";
 
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import useCachedResources from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
+import Navigation from "./navigation";
+
+const themes = {
+  colors: {
+    pink900: "#D84343",
+    pink500: "#D59999",
+  },
+};
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -15,8 +23,10 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+        <ThemeProvider theme={themes}>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
+        </ThemeProvider>
       </SafeAreaProvider>
     );
   }

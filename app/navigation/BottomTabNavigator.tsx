@@ -1,13 +1,19 @@
-import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import Colors from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
+import ChatsScreen from "../screens/ChatsScreen";
+import ContactsScreen from "../screens/ContactsScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import {
+  BottomTabParamList,
+  ChatsTabParamList,
+  ContactsTabParamList,
+  SettingsTabParamList,
+} from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -16,58 +22,100 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      initialRouteName="ChatsTab"
+      tabBarOptions={{
+        showLabel: false,
+        activeTintColor: Colors[colorScheme].tint,
+        style: {
+          height: 60,
+          marginLeft: 50,
+          marginRight: 50,
+          marginBottom: 30,
+          borderRadius: 35,
+          paddingBottom: 10,
+          borderTopWidth: 0,
+          position: "absolute",
+          paddingHorizontal: 20,
+          backgroundColor: Colors[colorScheme].tabBarBackground,
+        },
+      }}
+    >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="ChatsTab"
+        component={ChatsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-chatbubbles" color={color} />
+          ),
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="ContactsTab"
+        component={ContactsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-people" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="SettingsTab"
+        component={SettingsNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-settings" color={color} />
+          ),
         }}
       />
     </BottomTab.Navigator>
   );
 }
 
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof Ionicons>["name"];
+  color: string;
+}) {
+  return <Ionicons size={25} style={{ marginBottom: -5 }} {...props} />;
 }
 
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const ChatsStack = createStackNavigator<ChatsTabParamList>();
 
-function TabOneNavigator() {
+function ChatsNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
+    <ChatsStack.Navigator>
+      <ChatsStack.Screen
+        name="ChatsScreen"
+        component={ChatsScreen}
+        options={{ headerShown: false }}
       />
-    </TabOneStack.Navigator>
+    </ChatsStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const ContactsStack = createStackNavigator<ContactsTabParamList>();
 
-function TabTwoNavigator() {
+function ContactsNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
+    <ContactsStack.Navigator>
+      <ContactsStack.Screen
+        name="ContactsScreen"
+        component={ContactsScreen}
+        options={{ headerShown: false }}
       />
-    </TabTwoStack.Navigator>
+    </ContactsStack.Navigator>
+  );
+}
+
+const SettingsStack = createStackNavigator<SettingsTabParamList>();
+
+function SettingsNavigator() {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{ headerShown: false }}
+      />
+    </SettingsStack.Navigator>
   );
 }
